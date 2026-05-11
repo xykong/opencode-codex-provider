@@ -43,9 +43,9 @@ class CodexLanguageModel implements LanguageModelV2 {
 
   private createUsage() {
     return {
-      inputTokens: { total: 0, noCache: 0, cacheRead: undefined, cacheWrite: undefined },
-      outputTokens: { total: 0, text: 0, reasoning: undefined },
-    } as any
+      inputTokens: 0,
+      outputTokens: 0,
+    }
   }
 
   async doGenerate(options: LanguageModelV2CallOptions) {

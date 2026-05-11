@@ -32,9 +32,9 @@ export class StreamState {
       type: "finish",
       finishReason: reason,
       usage: {
-        inputTokens: { total: 0, noCache: 0, cacheRead: undefined, cacheWrite: undefined },
-        outputTokens: { total: 0, text: 0, reasoning: undefined },
-      } as any,
+        inputTokens: 0,
+        outputTokens: 0,
+      },
     });
 
     this.controller.close();
