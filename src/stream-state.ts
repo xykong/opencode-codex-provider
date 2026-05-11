@@ -32,9 +32,9 @@ export class StreamState {
       type: "finish",
       finishReason: reason,
       usage: {
-        inputTokens: undefined,
-        outputTokens: undefined,
-        totalTokens: undefined,
+        inputTokens: 0,
+        outputTokens: 0,
+        totalTokens: 0,
       },
     });
 
