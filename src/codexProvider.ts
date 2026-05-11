@@ -78,9 +78,8 @@ class CodexLanguageModel implements LanguageModelV2 {
       finishReason,
       usage:
         usage ?? {
-          inputTokens: 0,
-          outputTokens: 0,
-          totalTokens: 0,
+          inputTokens: { total: 0 },
+          outputTokens: { total: 0 },
         },
       warnings: [],
     }
