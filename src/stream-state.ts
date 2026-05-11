@@ -30,6 +30,15 @@ export class StreamState {
 
     this.controller.enqueue({
       type: "finish",
+      finishReason: { unified: reason === "unknown" ? "other" : reason, raw: undefined } as any,
+      usage: {
+        inputTokens: { total: 0, noCache: undefined, cacheRead: undefined, cacheWrite: undefined },
+        outputTokens: { total: 0, text: undefined, reasoning: undefined },
+      } as any,
+    });
+
+    this.controller.enqueue({
+      type: "finish",
       finishReason: reason,
       usage: {
         inputTokens: 0,

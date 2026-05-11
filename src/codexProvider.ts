@@ -23,7 +23,7 @@ import {
 } from "./utils"
 
 class CodexLanguageModel implements LanguageModelV2 {
-  readonly specificationVersion = "v2" as const
+  readonly specificationVersion = "v3" as const
   readonly provider = "codex"
   readonly supportedUrls: Record<string, RegExp[]> = { "*/*": [] }
 
@@ -43,31 +43,31 @@ class CodexLanguageModel implements LanguageModelV2 {
 
   private createUsage() {
     return {
-      inputTokens: 0,
-      outputTokens: 0,
-    }
+      inputTokens: { total: 0, noCache: undefined, cacheRead: undefined, cacheWrite: undefined },
+      outputTokens: { total: 0, text: undefined, reasoning: undefined },
+    } as any
   }
 
   async doGenerate(options: LanguageModelV2CallOptions) {
     const { stream } = await this.doStream(options)
     const reader = stream.getReader()
     let text = ""
-    let finishReason: LanguageModelV2FinishReason = "stop"
-    let usage: LanguageModelV2Usage | undefined
+    let finishReason: any = { unified: "stop", raw: undefined }
+    let usage: any | undefined
 
     while (true) {
       const { value, done } = await reader.read()
       if (done) break
       switch (value.type) {
         case "text-delta":
-          text += value.delta
+          text += (value as any).delta
           break
         case "finish":
-          finishReason = value.finishReason
-          usage = value.usage
+          finishReason = (value as any).finishReason
+          usage = (value as any).usage
           break
         case "error":
-          throw value.error instanceof Error ? value.error : new Error(String(value.error))
+          throw (value as any).error instanceof Error ? (value as any).error : new Error(String((value as any).error))
       }
     }
 
