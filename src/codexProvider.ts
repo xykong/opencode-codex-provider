@@ -41,6 +41,13 @@ class CodexLanguageModel implements LanguageModelV2 {
     return this.modelId
   }
 
+  private createUsage() {
+    return {
+      inputTokens: { total: 0, noCache: 0, cacheRead: undefined, cacheWrite: undefined },
+      outputTokens: { total: 0, text: 0, reasoning: undefined },
+    } as any
+  }
+
   async doGenerate(options: LanguageModelV2CallOptions) {
     const { stream } = await this.doStream(options)
     const reader = stream.getReader()
@@ -76,11 +83,7 @@ class CodexLanguageModel implements LanguageModelV2 {
     return {
       content,
       finishReason,
-      usage:
-        usage ?? {
-          inputTokens: { total: 0 },
-          outputTokens: { total: 0 },
-        },
+      usage: usage ?? this.createUsage(),
       warnings: [],
     }
   }
